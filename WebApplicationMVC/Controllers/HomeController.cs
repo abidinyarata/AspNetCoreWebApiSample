@@ -38,7 +38,17 @@ namespace WebApplicationMVC.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync("https://jsonplaceholder.typicode.com/users").Result;
+            List<User> users = new List<User>();
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string content = response.Content.ReadAsStringAsync().Result;
+                users = JsonSerializer.Deserialize<List<User>>(content);
+            }
+
+            return View(users);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

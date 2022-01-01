@@ -1,6 +1,19 @@
-﻿@{
+﻿@model List<User>
+
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<hr />
+
+<h1>Json Place Api User Example</h1>
+
+<ul>
+    @foreach (User item in Model)
+    {
+        <li>@item.name - (@item.username)</li>
+    }
+</ul>
