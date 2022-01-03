@@ -30,6 +30,10 @@ namespace WebApplicationMVC.Controllers
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 string content = response.Content.ReadAsStringAsync().Result;
+                JsonSerializerOptions options = new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 list = JsonSerializer.Deserialize<List<WeatherModel>>(content);
             }
 
