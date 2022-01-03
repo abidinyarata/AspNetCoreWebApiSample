@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace AspNetCoreWebApiSample.Controllers
 {
+    // convention-based routing
     [Route("[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
