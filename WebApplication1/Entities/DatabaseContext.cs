@@ -4,7 +4,7 @@ namespace WebApplication1.Entities
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
+        protected DatabaseContext()
         {
 
         }
