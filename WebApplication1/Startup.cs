@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,13 @@ namespace WebApplication1
                 opts.UseSqlServer(Configuration.GetConnectionString("AlbumsDatabaseConnectionString"));
                 //opts.UseLazyLoadingProxies();
             });
+
+            // API nini otomatik model state kontrol etmesi
+            services.Configure<ApiBehaviorOptions>(opts =>
+            {
+                //opts.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
