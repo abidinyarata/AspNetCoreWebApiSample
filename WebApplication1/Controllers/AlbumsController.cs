@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "yonetici")]
     [Route("[controller]")]
     [ApiController]
     public class AlbumsController : ControllerBase
@@ -20,6 +22,7 @@ namespace WebApplication1.Controllers
             _db = context;
         }
 
+        //[AllowAnonymous]
         [HttpGet("list")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(List<AlbumModel>))]
         public List<AlbumModel> List()
@@ -28,7 +31,8 @@ namespace WebApplication1.Controllers
 
             return albums;
         }
-        
+
+        //[Authorize]
         [HttpPost("create")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(AlbumModel))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(string))]
@@ -140,6 +144,7 @@ namespace WebApplication1.Controllers
             return Ok(data);
         }
 
+        //[Authorize]
         [HttpDelete("remove/{id:guid}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(string))]
         public IActionResult Delete(Guid id)
