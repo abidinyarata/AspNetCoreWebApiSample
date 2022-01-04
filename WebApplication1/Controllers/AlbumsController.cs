@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,29 @@ namespace WebApplication1.Controllers
             return Ok(model);
         }
 
+        [HttpGet("get-with-songs/{id:guid}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(AlbumModel))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(string))]
+        public IActionResult GetWithSongsById([FromRoute] Guid id)
+        {
+            Album album = _db.Albums.Include(x => x.Songs).SingleOrDefault(x => x.Id == id);
+
+            if (album == null)
+            {
+                return NotFound(id.ToString());
+            }
+
+            AlbumModel model = new AlbumModel
+            {
+                Id = album.Id,
+                Name = album.Name,
+                Author = album.Author,
+                Songs = album.Songs.Select(x => new SongModel { Id = x.Id, Name = x.Name, Duration = x.Duration}).ToList()
+            };
+
+            return Ok(model);
+        }
+
         [HttpPut("update/{id:guid}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(AlbumModel))]
         [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(string))]
@@ -116,7 +140,7 @@ namespace WebApplication1.Controllers
             return Ok(data);
         }
 
-        [HttpDelete("remove")]
+        [HttpDelete("remove/{id:guid}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(string))]
         public IActionResult Delete(Guid id)
         {
