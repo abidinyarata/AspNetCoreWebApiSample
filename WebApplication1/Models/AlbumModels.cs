@@ -18,4 +18,13 @@ namespace WebApplication1.Models
         [StringLength(50)]
         public string Author { get; set; }
     }
+
+    public class AlbumUpdateModel
+    {
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+        [StringLength(50)]
+        public string Author { get; set; }
+    }
 }
